@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: backend
+
+  # 1. MySQL 설정
+  datasource:
+    # 🚨 중요: 포트가 3307인지 확인하세요! (Docker 외부 포트)
+    url: jdbc:mysql://localhost:3307/ticketing?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  # 2. JPA 설정 (Worker 배치 처리를 위한 세팅 포함)
+  jpa:
+    hibernate:
+      ddl-auto: update # 초기 개발용 (테이블 자동 생성)
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+        jdbc:
+          batch_size: 100 # Batch Insert 성능 튜닝 핵심
+
+  # 3. Redis 설정
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+logging:
+  level:
+    org.hibernate.SQL: debug

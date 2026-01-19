@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  # 1. MySQL (최종 저장소)
+  mysql:
+    image: mysql:8.0
+    container_name: ticketing-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ticketing
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+  # 2. Redis (캐시 & 큐)
+  redis:
+    image: redis:alpine
+    container_name: ticketing-redis
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - ./data/redis:/data
+
+  # 3. Redis Exporter (모니터링 연동용)
+  redis-exporter:
+    image: oliver006/redis_exporter
+    container_name: ticketing-redis-exporter
+    environment:
+      - REDIS_ADDR=redis://redis:6379
+    ports:
+      - "9121:9121"
+    depends_on:
+      - redis
+
+  # 4. Prometheus (지표 수집)
+  prometheus:
+    image: prom/prometheus
+    container_name: ticketing-prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    depends_on:
+      - redis-exporter
+
+  # 5. Grafana (시각화)
+  grafana:
+    image: grafana/grafana
+    container_name: ticketing-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - prometheus
