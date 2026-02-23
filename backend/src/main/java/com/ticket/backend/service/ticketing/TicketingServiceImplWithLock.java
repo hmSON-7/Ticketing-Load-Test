@@ -1,4 +1,4 @@
-package com.ticket.backend.service;
+package com.ticket.backend.service.ticketing;
 
 public class TicketingServiceImplWithLock {
 }
