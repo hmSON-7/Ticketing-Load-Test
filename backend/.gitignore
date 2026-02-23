@@ -1,4 +1,4 @@
-HELP.md
+﻿HELP.md
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
@@ -26,23 +26,22 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 
-### Docker & Infrastructure (매우 중요!) ###
-# docker-compose로 생성되는 DB 데이터 파일들 (절대 올리면 안 됨)
+### Docker & Infrastructure (留ㅼ슦 以묒슂!) ###
+# docker-compose濡??앹꽦?섎뒗 DB ?곗씠???뚯씪??(?덈? ?щ━硫?????
 data/
 mysql-data/
 redis-data/
 
-# Docker 환경 설정 파일 (비밀번호 등이 들어갈 수 있음)
-.env
+# Docker ?섍꼍 ?ㅼ젙 ?뚯씪 (鍮꾨?踰덊샇 ?깆씠 ?ㅼ뼱媛????덉쓬)
 
 ### Logs ###
-# 실행 로그 파일들
+# ?ㅽ뻾 濡쒓렇 ?뚯씪??
 *.zip
 *.log
 logs/
 
 ### OS & System Files ###
-# Mac, Windows 시스템 파일 (협업 시 충돌 방지)
+# Mac, Windows ?쒖뒪???뚯씪 (?묒뾽 ??異⑸룎 諛⑹?)
 .DS_Store
 Thumbs.db
 Desktop.ini
@@ -56,3 +55,8 @@ Desktop.ini
 
 ### VS Code ###
 .vscode/
+
+### Environment ###
+.env
+.env.*
+!.env.example
