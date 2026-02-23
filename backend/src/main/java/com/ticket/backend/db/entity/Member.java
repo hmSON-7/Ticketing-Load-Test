@@ -8,27 +8,31 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class Member {
+
+    // 2026.2.23 14:00 이슈
+    // 1. nullable = false가 없어 데이터 무결성 약함
+    // 2. ALlArgsConstructor -> 실수 유도 가능
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
 
-    @Column(unique=true)
+    @Column(unique=true, nullable = false)
     private String username;
 
-    @Column
+    @Column(nullable = false)
     private String password;
 
-    @Column
     private String email;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    /*@OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<Ticketing> ticketList;*/
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Ticketing> ticketList;
 
     public void changePW(String password) {
         this.password = password;
