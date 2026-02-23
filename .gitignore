@@ -2,7 +2,6 @@
 data/
 mysql-data/
 redis-data/
-.env
 
 ### Trash ###
 *.zip
@@ -11,3 +10,8 @@ redis-data/
 ### System ###
 .DS_Store
 Thumbs.db
+
+### Environment ###
+.env
+.env.*
+!.env.example
