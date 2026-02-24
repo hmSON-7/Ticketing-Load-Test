@@ -22,15 +22,11 @@ public class AuthService {
     @Transactional
     public String join(JoinRequest joinRequest) {
         // 이미 존재하는 아이디 또는 이메일인가?
-        Member duplicated = memberRepository
-                .findByUsername(joinRequest.getUsername())
-                .orElse(null);
-        if(duplicated != null) throw new MemberDuplicatedException("이미 등록된 아이디입니다.");
+        if(memberRepository.existsByUsername(joinRequest.getUsername()))
+            throw new MemberDuplicatedException("이미 등록된 아이디입니다.");
 
-        duplicated = memberRepository
-                .findByEmail(joinRequest.getEmail())
-                .orElse(null);
-        if(duplicated != null) throw new MemberDuplicatedException("이미 등록된 이메일입니다.");
+        if(memberRepository.existsByEmail(joinRequest.getEmail()))
+            throw new MemberDuplicatedException("이미 등록된 이메일입니다.");
 
         // 비밀번호 암호화해서 DB에 계정 정보 등록
         Member member = new Member(
