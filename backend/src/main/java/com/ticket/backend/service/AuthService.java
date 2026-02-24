@@ -4,7 +4,10 @@ import com.ticket.backend.db.entity.Member;
 import com.ticket.backend.db.entity.Role;
 import com.ticket.backend.db.repository.MemberRepository;
 import com.ticket.backend.domain.dto.auth.JoinRequest;
+import com.ticket.backend.domain.dto.auth.LoginRequest;
+import com.ticket.backend.domain.dto.auth.LoginResponse;
 import com.ticket.backend.exceptions.MemberDuplicatedException;
+import com.ticket.backend.exceptions.MemberNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +40,23 @@ public class AuthService {
         );
         memberRepository.save(member);
         return member.getUsername();
+    }
+
+    public LoginResponse login(LoginRequest loginRequest) {
+        Member member = memberRepository
+                .findByUsername(loginRequest.getUsername())
+                .orElse(null);
+        if(member == null) throw new MemberNotFoundException("존재하지 않는 아이디입니다.");
+
+        String password = passwordEncoder.encode(loginRequest.getPassword());
+        if(!member.getPassword().equals(password))
+            throw new MemberNotFoundException("틀린 비밀번호를 입력하셨습니다.");
+
+        return new LoginResponse(
+                member.getMemberId(),
+                member.getUsername(),
+                member.getEmail()
+        );
     }
 
 }
