@@ -8,6 +8,7 @@ import com.ticket.backend.exceptions.MemberDuplicatedException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,9 +17,10 @@ import org.springframework.stereotype.Service;
 public class AuthService {
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public Member join(JoinRequest joinRequest) {
+    public String join(JoinRequest joinRequest) {
         // 이미 존재하는 아이디 또는 이메일인가?
         Member duplicated = memberRepository
                 .findByUsername(joinRequest.getUsername())
@@ -33,12 +35,12 @@ public class AuthService {
         // 비밀번호 암호화해서 DB에 계정 정보 등록
         Member member = new Member(
                 joinRequest.getUsername(),
-                joinRequest.getPassword(),
+                passwordEncoder.encode(joinRequest.getPassword()),
                 joinRequest.getEmail(),
                 Role.USER
         );
         memberRepository.save(member);
-        return member;
+        return member.getUsername();
     }
 
 }
