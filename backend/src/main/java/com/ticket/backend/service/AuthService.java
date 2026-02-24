@@ -23,7 +23,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public String join(JoinRequest joinRequest) {
+    public void join(JoinRequest joinRequest) {
         // 이미 존재하는 아이디 또는 이메일인가?
         if(memberRepository.existsByUsername(joinRequest.getUsername()))
             throw new MemberDuplicatedException("이미 등록된 아이디입니다.");
@@ -38,8 +38,8 @@ public class AuthService {
                 joinRequest.getEmail(),
                 Role.USER
         );
+
         memberRepository.save(member);
-        return member.getUsername();
     }
 
     public LoginResponse login(LoginRequest loginRequest) {
@@ -48,8 +48,7 @@ public class AuthService {
                 .orElse(null);
         if(member == null) throw new MemberNotFoundException("존재하지 않는 아이디입니다.");
 
-        String password = passwordEncoder.encode(loginRequest.getPassword());
-        if(!member.getPassword().equals(password))
+        if(!passwordEncoder.matches(loginRequest.getPassword(), member.getPassword()))
             throw new MemberNotFoundException("틀린 비밀번호를 입력하셨습니다.");
 
         return new LoginResponse(
