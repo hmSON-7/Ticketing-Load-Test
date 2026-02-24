@@ -20,15 +20,20 @@ public class Member {
     private Long memberId;
 
     @Column(unique=true, nullable = false)
+    @NonNull
     private String username;
 
     @Column(nullable = false)
+    @NonNull
     private String password;
 
+    @Column(nullable = false)
+    @NonNull
     private String email;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
+    @NonNull
     private Role role;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
