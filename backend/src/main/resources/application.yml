@@ -35,4 +35,3 @@ jwt:
   access-token-expire-ms: ${JWT_ACCESS_TOKEN_EXPIRE_MS}
   refresh-token-expire-ms: ${JWT_REFRESH_TOKEN_EXPIRE_MS}
   header: ${JWT_HEADER}
-  prefix: ${JWT_PREFIX}
