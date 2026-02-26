@@ -1,5 +1,6 @@
 package com.ticket.backend.service;
 
+import com.ticket.backend.config.security.JwtUtil;
 import com.ticket.backend.db.entity.Member;
 import com.ticket.backend.db.entity.Role;
 import com.ticket.backend.db.repository.MemberRepository;
@@ -21,6 +22,7 @@ public class AuthService {
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     @Transactional
     public void join(JoinRequest joinRequest) {
@@ -51,10 +53,13 @@ public class AuthService {
         if(!passwordEncoder.matches(loginRequest.getPassword(), member.getPassword()))
             throw new MemberNotFoundException("틀린 비밀번호를 입력하셨습니다.");
 
-        return new LoginResponse(
-                member.getMemberId(),
-                member.getUsername(),
-                member.getEmail()
+        // 로그인 인증 성공시 JWT 토큰 발급
+        String accessToken = jwtUtil.generateAccessToken(member);
+        String refreshToken = jwtUtil.generateRefreshToken(member);
+
+        return new LoginResponse("bearer",
+                accessToken, jwtUtil.getAccessTokenExpireSec(),
+                refreshToken, jwtUtil.getRefreshTokenExpireSec()
         );
     }
 

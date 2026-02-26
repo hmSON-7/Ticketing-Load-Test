@@ -27,9 +27,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Value("${jwt.header}")
     private String jwtHeader;
 
-    @Value("${jwt.prefix}")
-    private String jwtPrefix;
-
     private final JwtUtil jwtUtil;
 
     @Override
@@ -38,9 +35,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String authHeader = request.getHeader(jwtHeader);
 
         if (StringUtils.hasText(authHeader)
-                && authHeader.startsWith(jwtPrefix)
+                && authHeader.startsWith("bearer")
                 && SecurityContextHolder.getContext().getAuthentication() == null) {
-            String token = authHeader.substring(jwtPrefix.length()).trim();
+            String token = authHeader.substring("bearer".length()).trim();
             // accessToken일 경우만 인증 처리
             try {
                 if(!jwtUtil.isAccessToken(token))

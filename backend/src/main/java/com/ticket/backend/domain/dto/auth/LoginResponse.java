@@ -8,20 +8,27 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoginResponse {
 
-    @NotEmpty
-    private Long id;
+    @NotBlank
+    private String tokenType;
 
     @NotBlank
-    private String username;
+    private String accessToken;
 
     @NotBlank
-    @Email
-    private String email;
+    private Long accessExpiresIn;
+
+    @NotBlank
+    private String refreshToken;
+
+    @NotBlank
+    private Long refreshExpiresIn;
 
 }

@@ -52,6 +52,14 @@ public class JwtUtil {
                 .signWith(secretKey).compact();
     }
 
+    public long getAccessTokenExpireSec() {
+        return accessTokenExpire / 1000;
+    }
+
+    public long getRefreshTokenExpireSec() {
+        return refreshTokenExpire / 1000;
+    }
+
     public Claims parseClaimsOrThrow(String token) {
         return Jwts.parser().verifyWith(secretKey).build()
                 .parseSignedClaims(token).getPayload();
