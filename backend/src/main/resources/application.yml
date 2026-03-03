@@ -25,6 +25,12 @@
     redis:
       host: ${REDIS_HOST}
       port: ${REDIS_PORT}
+      username: ${REDIS_USERNAME}
+      password: ${REDIS_PASSWORD}
+      database: ${REDIS_DB:0}
+      timeout: ${REDIS_TIMEOUT_MS:2000ms}
+      ssl:
+        enabled: ${REDIS_SSL:false}
 
 logging:
   level:
