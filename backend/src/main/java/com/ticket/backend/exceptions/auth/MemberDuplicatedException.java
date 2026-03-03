@@ -1,4 +1,4 @@
-package com.ticket.backend.exceptions;
+package com.ticket.backend.exceptions.auth;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
