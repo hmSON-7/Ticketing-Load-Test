@@ -4,6 +4,7 @@ import com.ticket.backend.db.entity.Member;
 import com.ticket.backend.domain.dto.auth.JoinRequest;
 import com.ticket.backend.domain.dto.auth.LoginRequest;
 import com.ticket.backend.domain.dto.auth.LoginResponse;
+import com.ticket.backend.domain.dto.auth.ReissueRequest;
 import com.ticket.backend.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +35,13 @@ public class AuthController {
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
         LoginResponse loginResponse = authService.login(loginRequest);
 
-        // 차후 JWT 토큰까지 DTO에 추가
+        return ResponseEntity.status(HttpStatus.OK).body(loginResponse);
+    }
+
+    @PostMapping("/reissue")
+    public ResponseEntity<LoginResponse> reissue(@Valid @RequestBody ReissueRequest reissueRequest) {
+        LoginResponse loginResponse = authService.reissue(reissueRequest);
+
         return ResponseEntity.status(HttpStatus.OK).body(loginResponse);
     }
 
