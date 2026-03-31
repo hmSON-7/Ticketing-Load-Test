@@ -10,9 +10,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReissueRequest {
+public class LogoutRequest {
 
     @NotBlank
-    private String refreshToken;
+    private String accessToken;
 
 }

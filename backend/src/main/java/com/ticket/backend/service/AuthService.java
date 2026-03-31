@@ -7,7 +7,6 @@ import com.ticket.backend.db.repository.MemberRepository;
 import com.ticket.backend.domain.dto.auth.JoinRequest;
 import com.ticket.backend.domain.dto.auth.LoginRequest;
 import com.ticket.backend.domain.dto.auth.LoginResponse;
-import com.ticket.backend.domain.dto.auth.ReissueRequest;
 import com.ticket.backend.exceptions.auth.MemberDuplicatedException;
 import com.ticket.backend.exceptions.auth.MemberNotFoundException;
 import jakarta.transaction.Transactional;
@@ -64,13 +63,17 @@ public class AuthService {
         );
     }
 
-    public LoginResponse reissue(ReissueRequest reissueRequest) {
+    public LoginResponse reissue(String username) {
 
 
         return new LoginResponse("beareer",
                 "", 0L,
                 "", 0L
         );
+    }
+
+    public void logout(String username) {
+
     }
 
 }
