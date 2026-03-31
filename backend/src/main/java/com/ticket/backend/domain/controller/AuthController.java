@@ -3,6 +3,7 @@ package com.ticket.backend.domain.controller;
 import com.ticket.backend.domain.dto.auth.JoinRequest;
 import com.ticket.backend.domain.dto.auth.LoginRequest;
 import com.ticket.backend.domain.dto.auth.LoginResponse;
+import com.ticket.backend.domain.dto.auth.ReissueRequest;
 import com.ticket.backend.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -37,9 +38,8 @@ public class AuthController {
     }
 
     @PostMapping("/reissue")
-    public ResponseEntity<LoginResponse> reissue(Authentication authentication) {
-        String username = authentication.getName();
-        LoginResponse loginResponse = authService.reissue(username);
+    public ResponseEntity<LoginResponse> reissue(ReissueRequest reissueRequest) {
+        LoginResponse loginResponse = authService.reissue(reissueRequest.getRefreshToken());
 
         return ResponseEntity.status(HttpStatus.OK).body(loginResponse);
     }
