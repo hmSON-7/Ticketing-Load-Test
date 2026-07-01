@@ -29,10 +29,12 @@ public class Ticketing {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "member_id", nullable = false)
+    @NonNull
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ticket_id", nullable = false)
+    @NonNull
     private Ticket ticket;
 
 }

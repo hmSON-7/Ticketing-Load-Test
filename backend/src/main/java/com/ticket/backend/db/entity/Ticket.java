@@ -2,10 +2,7 @@ package com.ticket.backend.db.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.PositiveOrZero;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Check;
 
 import java.time.LocalDateTime;
@@ -29,9 +26,11 @@ public class Ticket {
     private Long ticketId;
 
     @Column(unique = true, nullable = false)
+    @NonNull
     private String code;
 
     @Column(nullable = false)
+    @NonNull
     private String ticketName;
 
     @PositiveOrZero
@@ -39,16 +38,20 @@ public class Ticket {
     private int inventory;
 
     @Column(nullable = false)
+    @NonNull
     private LocalDateTime openedAt;
 
     @Column(nullable = false)
+    @NonNull
     private LocalDateTime closedAt;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
+    @NonNull
     private State state;
 
     @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @NonNull
     private List<Ticketing> reservedList;
 
     public void decreaseInventory(int qty) {

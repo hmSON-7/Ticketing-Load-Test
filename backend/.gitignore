@@ -1,4 +1,4 @@
-﻿HELP.md
+HELP.md
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
@@ -26,22 +26,22 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 
-### Docker & Infrastructure (留ㅼ슦 以묒슂!) ###
-# docker-compose濡??앹꽦?섎뒗 DB ?곗씠???뚯씪??(?덈? ?щ━硫?????
+### Docker & Infrastructure (매우 중요!) ###
+# docker-compose로 생성되는 DB/캐시 데이터 파일 (절대 커밋 금지)
 data/
 mysql-data/
 redis-data/
 
-# Docker ?섍꼍 ?ㅼ젙 ?뚯씪 (鍮꾨?踰덊샇 ?깆씠 ?ㅼ뼱媛????덉쓬)
+# Docker 환경 설정 파일 (비밀번호 등 민감 정보 포함 가능)
 
 ### Logs ###
-# ?ㅽ뻾 濡쒓렇 ?뚯씪??
+# 실행 로그 및 압축 파일
 *.zip
 *.log
 logs/
 
 ### OS & System Files ###
-# Mac, Windows ?쒖뒪???뚯씪 (?묒뾽 ??異⑸룎 諛⑹?)
+# Mac, Windows 시스템 생성 파일 (협업 시 충돌 방지)
 .DS_Store
 Thumbs.db
 Desktop.ini
