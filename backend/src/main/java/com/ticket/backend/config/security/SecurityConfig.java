@@ -50,6 +50,14 @@ public class SecurityConfig {
                                 "/api/auth/reissue",
                                 "/error/**"
                         ).permitAll()
+                        // Actuator (헬스체크 / Prometheus 지표)
+                        .requestMatchers("/actuator/**").permitAll()
+                        // Swagger UI & OpenAPI 문서 (로컬 테스트용)
+                        .requestMatchers(
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/v3/api-docs/**"
+                        ).permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

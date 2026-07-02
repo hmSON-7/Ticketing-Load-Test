@@ -25,8 +25,8 @@
     redis:
       host: ${REDIS_HOST}
       port: ${REDIS_PORT}
-      username: ${REDIS_USERNAME}
-      password: ${REDIS_PASSWORD}
+      # username: ${REDIS_USERNAME}
+      # password: ${REDIS_PASSWORD}
       database: ${REDIS_DB:0}
       timeout: ${REDIS_TIMEOUT_MS:2000ms}
       ssl:
@@ -35,6 +35,26 @@
 logging:
   level:
     org.hibernate.SQL: debug
+
+# Actuator: 헬스체크 및 Prometheus 지표 노출 (부하 테스트 측정용)
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics, prometheus
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+# Swagger UI: http://localhost:8080/swagger-ui.html
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
 
 jwt:
   secret: ${JWT_SECRET}
