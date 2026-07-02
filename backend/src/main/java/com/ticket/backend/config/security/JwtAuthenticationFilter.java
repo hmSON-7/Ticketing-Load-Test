@@ -17,6 +17,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 
 @Slf4j
@@ -34,8 +35,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
         String authHeader = request.getHeader(jwtHeader);
 
+        // 표준 "Bearer"(대문자)와 "bearer"(소문자) 모두 허용 (대소문자 무시)
         if (StringUtils.hasText(authHeader)
-                && authHeader.startsWith("bearer")
+                && authHeader.regionMatches(true, 0, "bearer", 0, "bearer".length())
                 && SecurityContextHolder.getContext().getAuthentication() == null) {
             String token = authHeader.substring("bearer".length()).trim();
             // accessToken일 경우만 인증 처리
@@ -75,6 +77,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 || path.equals("/api/auth/reissue");
     }
 
-    public record JwtPrincipal(Long memberId, String username, String email) {}
+    // Principal 구현 → authentication.getName()이 username을 반환하도록 보장
+    public record JwtPrincipal(Long memberId, String username, String email) implements Principal {
+        @Override
+        public String getName() {
+            return username;
+        }
+    }
 
 }
