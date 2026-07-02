@@ -2,6 +2,14 @@ global:
   scrape_interval: 5s
 
 scrape_configs:
+  # Redis Exporter (컨테이너 → 컨테이너, 서비스명으로 접근)
   - job_name: 'redis_exporter'
     static_configs:
       - targets: ['redis-exporter:9121']
+
+  # Spring Boot 백엔드 (호스트에서 실행 → Actuator Prometheus 지표)
+  # 앱이 호스트에서 돌기 때문에 컨테이너에서는 host.docker.internal로 접근
+  - job_name: 'spring-backend'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['host.docker.internal:8080']
