@@ -6,6 +6,7 @@ import lombok.*;
 import org.hibernate.annotations.Check;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -35,7 +36,8 @@ public class Ticket {
 
     @PositiveOrZero
     @Column(nullable = false)
-    private int inventory;
+    @NonNull
+    private Integer inventory;
 
     @Column(nullable = false)
     @NonNull
@@ -51,8 +53,7 @@ public class Ticket {
     private State state;
 
     @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @NonNull
-    private List<Ticketing> reservedList;
+    private List<Ticketing> reservedList = new ArrayList<>();
 
     public void decreaseInventory(int qty) {
         if (qty <= 0) throw new IllegalArgumentException("qty must be > 0");

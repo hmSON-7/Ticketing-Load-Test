@@ -5,6 +5,11 @@
   application:
     name: backend
 
+  # 동시성 전략 선택기: nolock | pessimistic | optimistic | redis
+  # 부하 테스트 시 TICKETING_PROFILE 환경변수로 전환하며 재기동
+  profiles:
+    active: ${TICKETING_PROFILE:nolock}
+
   datasource:
     url: ${DB_URL}
     username: ${DB_USERNAME}
