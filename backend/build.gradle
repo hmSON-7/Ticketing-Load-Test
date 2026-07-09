@@ -46,6 +46,12 @@ dependencies {
 	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 
 	// API 문서화 & 로컬 테스트: Swagger UI (springdoc OpenAPI)
+	// [보안 메모] 이행적 취약점 CVE-2025-48924 (CVSS 5.3):
+	//   springdoc → swagger-core-jakarta:2.2.29 → commons-lang3:3.17.0 경로.
+	//   commons-lang3 ClassUtils 무한 재귀로 StackOverflow(DoS) 가능, 3.18.0에서 수정됨.
+	//   현재는 로컬 부하 테스트 도구 + 외부 입력이 취약 경로에 닿지 않아 위험 낮다고 판단, 미적용 상태.
+	//   필요 시 아래 constraint로 강제 상향:
+	//     constraints { implementation('org.apache.commons:commons-lang3:3.18.0') }
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.6'
 }
 
